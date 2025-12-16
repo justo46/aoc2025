@@ -1,39 +1,33 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
-void rotate(int& cur, std::string line) {
-    
-}
+#include <sstream>
+#include <vector>
+#include <array>
+#include <ranges>
 
 int main(){
-    std::string path = "aoc2025_1.txt";
-    std::ifstream file{path};
-
+    std::ifstream file{"aoc2025_2.txt"};
     std::string line;
-    int cur = 50;
-    int pw = 0;
-    if (file.is_open()) {
-        while (std::getline(file, line)) {
-            char dir = line[0];
-            int steps = std::stoi(line.substr(1));
-            if (dir == 'R') {
-                pw += (cur + steps) / 100;
-                cur = (cur + steps) % 100;
-            } else if (dir == 'L') {
-                if(cur == 0) pw--;
-                cur = cur - steps;
-                while(cur < 0){
-                    cur = cur + 100;
-                    pw++;
-                }
-                if(cur == 0){
-                    pw++;
-                }
+    std::getline(file, line);
+
+    unsigned long long sum = 0;
+    for (auto segment : std::views::split(line, ',')) {
+        std::string seg(segment.begin(), segment.end());
+        auto dash_pos = seg.find('-');
+
+        const auto start = std::stoull(seg.substr(0, dash_pos));
+        const auto end = std::stoull(seg.substr(dash_pos + 1));
+
+        for(auto i = start; i <= end; ++i){
+            std::string s = std::to_string(i);
+            if(s.length() % 2 == 1) continue;
+            bool is_repeating = true;
+            for(auto j = 0; j < s.length() / 2; ++j){
+                if(s[j] != s[s.length() / 2 + j]) is_repeating = false;
             }
-            std::cout << cur << " " << pw << std::endl;
+            if(is_repeating) sum += i;
         }
-        file.close();
     }
-    std::cout << pw << std::endl;
+    std::cout << sum << std::endl;
 }

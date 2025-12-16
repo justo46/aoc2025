@@ -2,10 +2,6 @@
 #include <fstream>
 #include <string>
 
-void rotate(int& cur, std::string line) {
-    
-}
-
 int main(){
     std::string path = "aoc2025_1.txt";
     std::ifstream file{path};

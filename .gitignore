@@ -1,1 +1,3 @@
-aoc2025.exe
+*.exe
+.vscode/
+.vs/
