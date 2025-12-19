@@ -36,12 +36,20 @@ int main(){
     unsigned long long sum = 0;
     const int rows = grid.size();
     const int cols = grid[0].size();
-    for(int row = 0; row < rows; ++row){
-        for(int col = 0; col < cols; ++col){
-            if(grid[row][col] == '@'){
-                sum += static_cast<unsigned long long>(check_paper(grid, row, col));
+    int tmp_sum = 1;
+    while(tmp_sum > 0){
+        tmp_sum = 0;
+        for(int row = 0; row < rows; ++row){
+            for(int col = 0; col < cols; ++col){
+                if(grid[row][col] == '@'){
+                    if(check_paper(grid, row, col)){
+                        tmp_sum++;
+                        grid[row][col] = '.';
+                    }
+                }
             }
         }
+        sum += tmp_sum;
     }
     std::cout << sum << std::endl;
 }
